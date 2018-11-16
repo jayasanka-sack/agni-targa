@@ -5,12 +5,12 @@ function loadPage(url){
 
     $.ajax({
         type: "POST",
-        url: '../../async/admin/'+url,
+        url: 'async/'+url,
         dataType: "html", success: function (data) {
             $('#page').html(data);
         },
         error: function () {
-            loadPage('dashboard.php')
+            loadPage('dashboard.html')
         }
     });
 
@@ -21,6 +21,7 @@ function pageRosolve(hash) {
     hash = hash.replace("UU","..\/")
     hash = hash.replace(/QQ/g,"?")
     hash = hash.replace("-xx",".php")
+    hash = hash.replace("-hh",".html")
     return hash;
 }
 
