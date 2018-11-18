@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="toolbar">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <input type="email" class="form-control" placeholder="Task name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            Total pcs
+                            <input type="number" class="form-control" placeholder="0">
+                        </div>
+                        <div class="col-md-10 text-right">
+                            <button class="btn btn-simple btn-round">Cancel</button>
+                            <button class="btn btn-success btn-round btn-round">
+                                save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end content-->
+        </div>
+        <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+</div>
+<!-- end row -->
+<div class="row">
+    <div class="col-12 text-center">
+        <span class="text-center">Jobs</span>
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5>Hi</h5>
+                        <p class="text-dark">Points per 100pcs : 100</p>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <button class="btn btn-sm btn-warning btn-round btn-icon">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-round btn-icon">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- end content-->
+        </div>
+        <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Job name">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-3">
+                                <label class="text-dark">Points per 100pcs :</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" class="form-control" value="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <button class="btn btn-sm btn-warning btn-round btn-icon">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-round btn-icon">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- end content-->
+        </div>
+        <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+</div>
+
+<button class="btn btn-success btn-round btn-icon">
+    <i class="nc-icon nc-simple-add"></i>
+</button>
+
+<script>
+
+    $('#datatable').DataTable({
+        "pagingType": "full_numbers",
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        responsive: true,
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search records",
+        }
+
+    });
+
+    var table = $('#datatable').DataTable();
+</script>
