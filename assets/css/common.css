@@ -5,3 +5,7 @@
 .off-canvas-sidebar .sidebar-wrapper, .sidebar .sidebar-wrapper{
     overflow: hidden;
 }
+
+.text-dark-gray{
+    color: #4e555b;
+}

@@ -1,27 +1,26 @@
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-header">
-                    <h2>My Task</h2>
-                </div>
-                <div class="toolbar">
-
-                </div>
-                <!-- end content-->
-            </div>
-            <!--  end card  -->
-        </div>
-        <!-- end col-md-12 -->
+    <div class="col-9">
+        <h2>My Task</h2>
     </div>
-    <!-- end row -->
+    <div class="col-3">
+        <button class="btn btn-success btn-round btn-icon">
+            <i class="fa fa-plus"></i>
+        </button>
+        <a href="#edit-task-hh" class="btn btn-warning btn-round btn-icon">
+            <i class="fa fa-pencil"></i>
+        </a>
+        <button class="btn btn-danger btn-round btn-icon">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
 </div>
+
 <div class="row">
     <div class="col-md-4">
         <div class="card ">
             <div class="card-header ">
-                <h5 class="card-title">Email Statistics</h5>
-                <p class="card-category">Last Campaign Performance</p>
+                <h5 class="card-title">Statistics</h5>
+                <!--<p class="card-category">Last Campaign Performance</p>-->
             </div>
             <div class="card-body ">
                 <canvas id="chartDonut1" class="ct-chart ct-perfect-fourth" width="456"
@@ -29,21 +28,62 @@
             </div>
             <div class="card-footer ">
                 <div class="legend">
-                    <i class="fa fa-circle text-info"></i> Open
-                </div>
-                <hr>
-                <div class="stats">
-                    <i class="fa fa-calendar"></i> Number of emails sent
+                    <i class="fa fa-circle text-success"></i> Completed
                 </div>
             </div>
         </div>
     </div>
 
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5>#1
+                            <small class="text-dark-gray">001</small>
+                            Anjula Samarasinghe
+                        </h5>
+                        <table class="table">
+                            <tr>
+                                <td>8:00 AM</td>
+                                <td>Lorem ipsum</td>
+                                <td>100 pcs</td>
+                                <td>
+                                    <button class="btn btn-sm btn-simple btn-round btn-icon">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8:00 AM</td>
+                                <td>Lorem ipsum</td>
+                                <td>100 pcs</td>
+                                <td>
+                                    <button class="btn btn-sm btn-simple btn-round btn-icon">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <h5 class="text-dark-gray"><i class="fa fa-star text-warning"></i> 500</h5>
+                    </div>
+                </div>
+            </div>
+            <!-- end content-->
+        </div>
+        <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         Chart.pluginService.register({
-            beforeDraw: function(chart) {
+            beforeDraw: function (chart) {
                 if (chart.config.options.elements.center) {
                     //Get ctx from string
                     var ctx = chart.chart.ctx;
@@ -83,7 +123,7 @@
                 }
             }
         });
-       var ctx = document.getElementById('chartDonut1').getContext("2d");
+        ctx = document.getElementById('chartDonut1').getContext("2d");
 
         var myChart = new Chart(ctx, {
             type: 'pie',
@@ -93,7 +133,7 @@
                     label: "Emails",
                     pointRadius: 0,
                     pointHoverRadius: 0,
-                    backgroundColor: ['#4acccd', '#f4f3ef'],
+                    backgroundColor: ['#6bd098', '#f4f3ef'],
                     borderWidth: 0,
                     data: [60, 40]
                 }]
