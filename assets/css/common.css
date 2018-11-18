@@ -1,3 +1,7 @@
 .btn-simple{
     border: 0;
 }
+
+.off-canvas-sidebar .sidebar-wrapper, .sidebar .sidebar-wrapper{
+    overflow: hidden;
+}
