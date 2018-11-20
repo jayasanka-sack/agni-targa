@@ -3,7 +3,7 @@
         <h2>My Task</h2>
     </div>
     <div class="col-3">
-        <button class="btn btn-success btn-round btn-icon">
+        <button class="btn btn-success btn-round btn-icon" data-toggle="modal" data-target="#mdl-add-pcs">
             <i class="fa fa-plus"></i>
         </button>
         <a href="#edit-task-hh" class="btn btn-warning btn-round btn-icon">
@@ -19,7 +19,7 @@
     <div class="col-md-4">
         <div class="card ">
             <div class="card-header ">
-                <h5 class="card-title">Statistics</h5>
+                <h5 class="card-title">Progress</h5>
                 <!--<p class="card-category">Last Campaign Performance</p>-->
             </div>
             <div class="card-body ">
@@ -78,6 +78,53 @@
         <!--  end card  -->
     </div>
     <!-- end col-md-12 -->
+</div>
+<div class="modal fade" id="mdl-add-pcs" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <h4 class="title title-up">Add hourly count</h4>
+            </div>
+            <div class="modal-body">
+                <form method="#" action="#">
+                    <label>Hour</label>
+                    <div class="form-group">
+                        <input type="number" class="form-control">
+                    </div>
+                    <label>Employee ID</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Job</label>
+                        <select class="form-control" id="sel1">
+                            <option>Lorem ipsum</option>
+                            <option>Sit amet</option>
+                            <option>Despacito</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Count</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <p class="text-danger text-center"></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="button" class="btn btn-success btn-link">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
