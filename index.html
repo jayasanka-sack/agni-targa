@@ -133,6 +133,29 @@
         </footer>
     </div>
 </div>
+<div class="modal fade modal-primary" id="mdl-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <div class="modal-profile ml-auto mr-auto">
+                    <i class="nc-icon nc-bulb-63"></i>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure?<br/> this can not be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button id="btn-submit-delete" type="button" class="btn btn-link btn-link btn-danger">Yes</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    <button type="button" class="btn btn-link btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 <!--   Core JS Files   -->
@@ -161,8 +184,8 @@
         <td>{{id}}</td>
         <td>{{first_name}} {{last_name}}</td>
         <td class="text-right">
-            <a href="#" class="btn btn-warning btn-link btn-icon btn-sm edit"><i class="fa fa-edit"></i></a>
-            <a href="#" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></a>
+            <button onclick="editEmployee('{{id}}','{{first_name}}', '{{last_name}}')" class="btn btn-warning btn-link btn-icon btn-sm edit"><i class="fa fa-edit"></i></button>
+            <button onclick="deleteEmployee('{{id}}')" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
         </td>
     </tr>
     {{/employees}}

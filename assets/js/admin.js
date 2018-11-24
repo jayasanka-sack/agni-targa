@@ -1,11 +1,11 @@
 var serverAddress = '/projects/agni-targa'
-var api = serverAddress+'/api/v1'
+var api = serverAddress + '/api/v1'
 
-function loadPage(url){
+function loadPage(url) {
     redirectIfNotLogged();
     $.ajax({
         type: "POST",
-        url: 'async/'+url,
+        url: 'async/' + url,
         dataType: "html", success: function (data) {
             $('#page').html(data);
         },
@@ -15,32 +15,32 @@ function loadPage(url){
     });
 
 }
+
 function pageRosolve(hash) {
     hash = hash.substr(1);
-    hash = hash.replace("QA","\/")
-    hash = hash.replace("UU","..\/")
-    hash = hash.replace(/QQ/g,"?")
-    hash = hash.replace("-xx",".php")
-    hash = hash.replace("-hh",".html")
+    hash = hash.replace("QA", "\/")
+    hash = hash.replace("UU", "..\/")
+    hash = hash.replace(/QQ/g, "?")
+    hash = hash.replace("-xx", ".php")
+    hash = hash.replace("-hh", ".html")
     return hash;
 }
 
-function changeActive(elementId){
+function changeActive(elementId) {
     var navBar = $('#navBar')
     navBar.find("li").removeClass('active')
-    $('#'+elementId).addClass('active')
+    $('#' + elementId).addClass('active')
 }
 
 
-
-function refreshPage(){
+function refreshPage() {
     setTimeout(function () {
         loadPage(pageRosolve(window.location.hash))
     }, 1000);
 }
 
 
-function renderTableData(template, uri, table,successCallback=null, errorCallback=null) {
+function renderTableData(template, uri, table, successCallback = null, errorCallback = null) {
     $.ajax({
         type: "get",
         url: api + uri,
@@ -63,21 +63,21 @@ function renderTableData(template, uri, table,successCallback=null, errorCallbac
                     searchPlaceholder: "Search records",
                 }
             });
-            if(successCallback!=null){
+            if (successCallback != null) {
                 successCallback(data, textStatus, jqXHR);
             }
         },
         error: function (jqXHR) {
             let status = jqXHR.status;
             showNotification('danger##notifications##Something went wrong');
-            if(errorCallback!=null){
+            if (errorCallback != null) {
                 errorCallback();
             }
         }
     });
 }
 
-function renderData(template, uri, target, isToAppend, successCallback=null, errorCallback=null) {
+function renderData(template, uri, target, isToAppend, successCallback = null, errorCallback = null) {
     $.ajax({
         type: "get",
         url: api + uri,
@@ -86,12 +86,12 @@ function renderData(template, uri, target, isToAppend, successCallback=null, err
             let status = jqXHR.status;
             let templateStructure = $(template).html();
             let output = Mustache.render(templateStructure, data);
-            if(isToAppend){
+            if (isToAppend) {
                 $(target).append(output);
-            }else {
+            } else {
                 $(target).hide().html(output).fadeIn('slow');
             }
-            if(successCallback!=null){
+            if (successCallback != null) {
                 successCallback(data, textStatus, jqXHR);
             }
         },
@@ -99,7 +99,7 @@ function renderData(template, uri, target, isToAppend, successCallback=null, err
             let status = jqXHR.status;
             console.log(jqXHR);
             showNotification('danger##notifications##Something went wrong');
-            if(errorCallback!=null){
+            if (errorCallback != null) {
                 errorCallback();
             }
         }
@@ -136,14 +136,14 @@ function login() {
         // send data to API
         $.ajax({
             type: "POST",
-            url: api+'/login',
-            data: 'username='+un+'&password=' + pw,
+            url: api + '/login',
+            data: 'username=' + un + '&password=' + pw,
             dataType: "json",
 
-            success: function (data) { 
-                    error.html('<b style="color:green;">you are logged. wait for redirection</b>');
-                    window.location.replace(serverAddress); //redirect to particullar dashboard page
-                
+            success: function (data) {
+                error.html('<b style="color:green;">you are logged. wait for redirection</b>');
+                window.location.replace(serverAddress); //redirect to particullar dashboard page
+
             },
             error: function () {
                 error.html('Wrong Login Data<br/>'); // view error message
@@ -155,10 +155,10 @@ function login() {
 function logout() {
     $.ajax({
         type: "GET",
-        url: api+'/logout',
+        url: api + '/logout',
         dataType: "json",
         success: function (data) {
-            window.location.replace(serverAddress+'/login.html'); //redirect to particullar dashboard page
+            window.location.replace(serverAddress + '/login.html'); //redirect to particullar dashboard page
 
         },
         error: function () {
@@ -171,7 +171,7 @@ function redirectIfLogged() {
     console.log("hi");
     $.ajax({
         type: "GET",
-        url: api+'/user-status',
+        url: api + '/user-status',
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             console.log(jqXHR.status);
@@ -184,11 +184,41 @@ function redirectIfNotLogged() {
     var logged = false;
     $.ajax({
         type: "GET",
-        url: api+'/user-status',
+        url: api + '/user-status',
         dataType: "json",
         error: function () {
-            window.location.replace(serverAddress+'/login.html');
+            window.location.replace(serverAddress + '/login.html');
         }
     });
 }
 
+function editEmployee(id, fname, lname) {
+    let form = $('#frm-edit-employee');
+    form.attr("action", 'api/v1/employees/' + id);
+    form.find('[name="first_name"]').val(fname);
+    form.find('[name="last_name"]').val(lname);
+    $('#mdl-edit-employee').modal();
+}
+
+function deleteEmployee(id) {
+    // $('#btn-submit-delete').attr("onclick","sendDeleteEmployee("+id+")");
+    $("#btn-submit-delete").attr('onclick', "sendDeleteEmployee("+id+")");
+    $('#mdl-delete').modal();
+
+}
+
+function sendDeleteEmployee(id) {
+    $.ajax({
+        type: "DELETE",
+        url: api + '/employees/' + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mdl-delete').modal('hide');
+            refreshPage();
+            showNotification('success##notifications##Deleted Successfully!');
+        }, error: function () {
+            $('#mdl-delete').modal('hide');
+            showNotification('danger##notifications##Something went wrong');
+        }
+    });
+}

@@ -84,33 +84,36 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="nc-icon nc-simple-remove"></i>
                 </button>
-                <h4 class="title title-up">New Employee</h4>
+                <h4 class="title title-up">Edit Employee</h4>
             </div>
-            <div class="modal-body">
-                <form id="frm-edit-employee" method="post" action="#">
+            <form id="frm-edit-employee" method="post" action="#">
+                <div class="modal-body">
+
                     <label>First Name</label>
                     <div class="form-group">
-                        <input type="text" class="form-control">
+                        <input name="first_name" type="text" class="form-control" placeholder="First Name">
                     </div>
                     <label>Last Name</label>
                     <div class="form-group">
-                        <input type="text" class="form-control">
+                        <input name="last_name" type="text" class="form-control" placeholder="Last Name">
                     </div>
                     <p class="text-danger text-center"></p>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
                 </div>
-                <div class="divider"></div>
-                <div class="right-side">
-                    <button type="button" class="btn btn-success btn-link">Save</button>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button id="btn-submit-edit-employee" type="submit" class="btn btn-success btn-link">Save
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
 
 <script>
     renderTableData('#template-tbl-employees', '/employees', '#tbl-employees');
@@ -135,6 +138,41 @@
     });
 
     frmAddEmployee.validate({
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 45
+            },
+            last_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 45
+            }
+        }
+    });
+
+    var frmEditEmployee = $('#frm-edit-employee');
+    var btnSubmitEditEmployee = $('#btn-submit-edit-employee');
+    frmEditEmployee.on('submit', function (e) {
+        e.preventDefault();
+        if (frmEditEmployee.valid()) {
+            btnSubmitEditEmployee.html("SAVING...");
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    $('#mdl-edit-employee').modal('hide');
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    showNotification('danger##notifications##Something went wrong');
+                    $('#mdl-edit-employee').modal('hide');
+                    btnSubmitEditEmployee.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmEditEmployee.validate({
         rules: {
             first_name: {
                 required: true,
