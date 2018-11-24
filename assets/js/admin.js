@@ -1,6 +1,9 @@
 var serverAddress = '/projects/agni-targa'
 var api = serverAddress + '/api/v1'
 
+var date = new Date();
+var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
 function loadPage(url) {
     redirectIfNotLogged();
     $.ajax({
@@ -201,7 +204,6 @@ function editEmployee(id, fname, lname) {
 }
 
 function deleteEmployee(id) {
-    // $('#btn-submit-delete').attr("onclick","sendDeleteEmployee("+id+")");
     $("#btn-submit-delete").attr('onclick', "sendDeleteEmployee("+id+")");
     $('#mdl-delete').modal();
 
@@ -211,6 +213,38 @@ function sendDeleteEmployee(id) {
     $.ajax({
         type: "DELETE",
         url: api + '/employees/' + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mdl-delete').modal('hide');
+            refreshPage();
+            showNotification('success##notifications##Deleted Successfully!');
+        }, error: function () {
+            $('#mdl-delete').modal('hide');
+            showNotification('danger##notifications##Something went wrong');
+        }
+    });
+}
+
+
+function editTask(id, date, title, pcs_count) {
+    let form = $('#frm-edit-task');
+    form.attr("action", 'api/v1/tasks/' + id);
+    form.find('[name="date"]').val(date);
+    form.find('[name="title"]').val(title);
+    form.find('[name="pcs_count"]').val(pcs_count);
+    $('#mdl-edit-task').modal();
+}
+
+function deleteTask(id) {
+    $("#btn-submit-delete").attr('onclick', "sendDeleteTask("+id+")");
+    $('#mdl-delete').modal();
+
+}
+
+function sendDeleteTask(id) {
+    $.ajax({
+        type: "DELETE",
+        url: api + '/tasks/' + id,
         dataType: "json",
         success: function (data) {
             $('#mdl-delete').modal('hide');

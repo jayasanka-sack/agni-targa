@@ -6,11 +6,12 @@
             </div>
             <div class="card-body">
                 <div class="toolbar">
-                    <button class="btn btn-success btn-round">
+                    <button class="btn btn-success btn-round" data-toggle="modal"
+                            data-target="#mdl-add-task">
                         <i class="nc-icon nc-simple-add"></i> new task
                     </button>
                 </div>
-                <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="tbl-tasks" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -30,16 +31,7 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>1/5/2018</td>
-                        <td><a href="#task-hh">Hope Fuentes</a></td>
-                        <td>500</td>
-                        <td class="text-right">
-                            <a href="#edit-task-hh" class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></a>
-                            <a href="#" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -50,23 +42,179 @@
     <!-- end col-md-12 -->
 </div>
 <!-- end row -->
+<div class="modal fade" id="mdl-add-task" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <h4 class="title title-up">New Task</h4>
+            </div>
+            <form id="frm-add-task" method="post" action="api/v1/tasks">
+                <div class="modal-body">
 
+                    <label>Date</label>
+                    <div class="form-group">
+                        <input name="date" type="text" class="form-control datepicker">
+                    </div>
+                    <label>Title</label>
+                    <div class="form-group">
+                        <input name="title" type="text" class="form-control" placeholder="Enter Task Title">
+                    </div>
+                    <label>Pieces Count</label>
+                    <div class="form-group">
+                        <input name="pcs_count" type="number" class="form-control" placeholder="Enter Total Pieces Count">
+                    </div>
+                    <p class="text-danger text-center"></p>
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button id="btn-submit-add-task" type="submit" class="btn btn-success btn-link">Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdl-edit-task" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <h4 class="title title-up">New Task</h4>
+            </div>
+            <form id="frm-edit-task" method="post" action="#">
+                <div class="modal-body">
+
+                    <label>Date</label>
+                    <div class="form-group">
+                        <input name="date" type="text" class="form-control datepicker">
+                    </div>
+                    <label>Title</label>
+                    <div class="form-group">
+                        <input name="title" type="text" class="form-control" placeholder="Enter Task Title">
+                    </div>
+                    <label>Pieces Count</label>
+                    <div class="form-group">
+                        <input name="pcs_count" type="number" class="form-control" placeholder="Enter Total Pieces Count">
+                    </div>
+                    <p class="text-danger text-center"></p>
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button id="btn-submit-edit-task" type="submit" class="btn btn-success btn-link">Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
+    renderTableData('#template-tbl-tasks', '/tasks', '#tbl-tasks');
 
-    $('#datatable').DataTable({
-        "pagingType": "full_numbers",
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
-        language: {
-            search: "_INPUT_",
-            searchPlaceholder: "Search records",
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
         }
-
     });
 
-    var table = $('#datatable').DataTable();
+    // $('.datepicker').datetimepicker( 'setDate', today );
+
+
+    var frmAddTask = $('#frm-add-task');
+    var btnSubmitAddTask = $('#btn-submit-add-task');
+    frmAddTask.on('submit', function (e) {
+        e.preventDefault();
+        if (frmAddTask.valid()) {
+            btnSubmitAddTask.html("SAVING...");
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    $('#mdl-add-task').modal('hide');
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    showNotification('danger##notifications##Something went wrong');
+                    btnSubmitAddTask.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmAddTask.validate({
+        rules: {
+            date:{
+                required: true
+            },
+            pcs_count: {
+                required: true,
+                min: 1
+            },
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 60
+            }
+        }
+    });
+
+    var frmEditTask = $('#frm-edit-task');
+    var btnSubmitEditTask = $('#btn-submit-edit-task');
+    frmEditTask.on('submit', function (e) {
+        e.preventDefault();
+        if (frmEditTask.valid()) {
+            btnSubmitEditTask.html("SAVING...");
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    $('#mdl-edit-task').modal('hide');
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    showNotification('danger##notifications##Something went wrong');
+                    btnSubmitEditTask.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmEditTask.validate({
+        rules: {
+            date:{
+                required: true
+            },
+            pcs_count: {
+                required: true,
+                min: 1
+            },
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 60
+            }
+        }
+    });
 </script>

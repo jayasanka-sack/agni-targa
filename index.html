@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
     <script src="assets/components/pace/pace.min.js"></script>
-    <link href="assets/components/pace/themes/purple/pace-theme-flash.css" rel="stylesheet" />
+    <link href="assets/components/pace/themes/purple/pace-theme-flash.css" rel="stylesheet"/>
     <title>
         Targa
     </title>
@@ -133,7 +133,8 @@
         </footer>
     </div>
 </div>
-<div class="modal fade modal-primary" id="mdl-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-primary" id="mdl-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
@@ -162,11 +163,15 @@
 <script src="assets/js/core/jquery.min.js"></script>
 <script src="assets/js/core/popper.min.js"></script>
 <script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugins/moment.min.js"></script>
 <script src="assets/js/plugins/jquery.datatables.js"></script>
 <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
 <script src="assets/js/plugins/jquery.validate.min.js"></script>
+<script src="assets/js/plugins/bootstrap-datetimepicker.js"></script>
 <!-- Plugin for ajax submit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"
+        integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
+        crossorigin="anonymous"></script>
 <!-- Chart JS -->
 <script src="assets/js/plugins/chartjs.min.js"></script>
 <!--  Notifications Plugin    -->
@@ -184,11 +189,27 @@
         <td>{{id}}</td>
         <td>{{first_name}} {{last_name}}</td>
         <td class="text-right">
-            <button onclick="editEmployee('{{id}}','{{first_name}}', '{{last_name}}')" class="btn btn-warning btn-link btn-icon btn-sm edit"><i class="fa fa-edit"></i></button>
-            <button onclick="deleteEmployee('{{id}}')" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
+            <button onclick="editEmployee('{{id}}','{{first_name}}', '{{last_name}}')"
+                    class="btn btn-warning btn-link btn-icon btn-sm edit"><i class="fa fa-edit"></i></button>
+            <button onclick="deleteEmployee('{{id}}')" class="btn btn-danger btn-link btn-icon btn-sm remove"><i
+                    class="fa fa-times"></i></button>
         </td>
     </tr>
     {{/employees}}
+</script>
+<script id="template-tbl-tasks" type="text/html">
+    {{#tasks}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{date}}</td>
+        <td><a href="#task-hh">{{title}}</a></td>
+        <td>{{pcs_count}}</td>
+        <td class="text-right">
+            <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')" href="#edit-task-hh" class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></button>
+            <button onclick="deleteTask('{{id}}')" href="#" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
+        </td>
+    </tr>
+    {{/tasks}}
 </script>
 <script type="text/javascript">
 
@@ -206,7 +227,6 @@
         $(window).on('hashchange', function () {
             loadPage(pageRosolve(window.location.hash))
         });
-        let table = $('#tbl').DataTable();
     });
 </script>
 </html>
