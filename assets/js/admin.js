@@ -1,5 +1,5 @@
 var serverAddress = '/projects/agni-targa'
-var api = '/projects/targa-api/v1'
+var api = serverAddress+'/api/v1'
 
 function loadPage(url){
     redirectIfNotLogged();
@@ -38,6 +38,90 @@ function refreshPage(){
         loadPage(pageRosolve(window.location.hash))
     }, 1000);
 }
+
+
+function renderTableData(template, uri, table,successCallback=null, errorCallback=null) {
+    $.ajax({
+        type: "get",
+        url: api + uri,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            let status = jqXHR.status;
+            let templateStructure = $(template).html();
+            let output = Mustache.render(templateStructure, data);
+            table = $(table);
+            table.find('tbody').html(output);
+            table.DataTable({
+                "pagingType": "full_numbers",
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                responsive: true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search records",
+                }
+            });
+            if(successCallback!=null){
+                successCallback(data, textStatus, jqXHR);
+            }
+        },
+        error: function (jqXHR) {
+            let status = jqXHR.status;
+            showNotification('danger##notifications##Something went wrong');
+            if(errorCallback!=null){
+                errorCallback();
+            }
+        }
+    });
+}
+
+function renderData(template, uri, target, isToAppend, successCallback=null, errorCallback=null) {
+    $.ajax({
+        type: "get",
+        url: api + uri,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            let status = jqXHR.status;
+            let templateStructure = $(template).html();
+            let output = Mustache.render(templateStructure, data);
+            if(isToAppend){
+                $(target).append(output);
+            }else {
+                $(target).hide().html(output).fadeIn('slow');
+            }
+            if(successCallback!=null){
+                successCallback(data, textStatus, jqXHR);
+            }
+        },
+        error: function (jqXHR) {
+            let status = jqXHR.status;
+            console.log(jqXHR);
+            showNotification('danger##notifications##Something went wrong');
+            if(errorCallback!=null){
+                errorCallback();
+            }
+        }
+    });
+}
+
+function showNotification(data) {
+    var inData = data.split("##");
+    $.notify({
+        icon: inData[1],
+        message: inData[2]
+
+    }, {
+        type: inData[0],
+        timer: 2000,
+        placement: {
+            from: 'top',
+            align: 'right'
+        }
+    });
+}
+
 
 function login() {
     var error = $('#lblLoginError');
