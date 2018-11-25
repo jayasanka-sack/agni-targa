@@ -226,6 +226,28 @@ function sendDeleteEmployee(id) {
 }
 
 
+function deleteJob(id) {
+    $("#btn-submit-delete").attr('onclick', "sendDeleteJob(" + id + ")");
+    $('#mdl-delete').modal();
+
+}
+
+function sendDeleteJob(id) {
+    $.ajax({
+        type: "DELETE",
+        url: api + '/jobs/' + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mdl-delete').modal('hide');
+            refreshPage();
+            showNotification('success##notifications##Deleted Successfully!');
+        }, error: function () {
+            $('#mdl-delete').modal('hide');
+            showNotification('danger##notifications##Something went wrong');
+        }
+    });
+}
+
 function editTask(id, date, title, pcs_count) {
     let form = $('#frm-edit-task');
     form.attr("action", 'api/v1/tasks/' + id);
@@ -300,4 +322,22 @@ function makeJobNormal(id,title,pph) {
     let output = Mustache.render(templateStructure, data);
     $('#job-'+id).html(output);
 
+}
+
+function editJob(id) {
+    let form = $('#job-'+id);
+    let pph = form.find('[name="pph"]').val();
+    let title = form.find('[name="title"]').val();
+    $.ajax({
+        type: "POST",
+        url: api + '/jobs/' + id,
+        dataType: "json",
+        data: 'title='+title+'&pph='+pph,
+        success: function (data) {
+            makeJobNormal(id,title,pph);
+            showNotification('success##notifications##Saved Successfully!');
+        }, error: function () {
+            showNotification('danger##notifications##Something went wrong');
+        }
+    });
 }
