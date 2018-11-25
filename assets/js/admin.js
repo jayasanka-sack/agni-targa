@@ -80,7 +80,7 @@ function renderTableData(template, uri, table, successCallback = null, errorCall
     });
 }
 
-function renderData(template, uri, target, isToAppend, successCallback = null, errorCallback = null) {
+function renderData(template, uri, target, isToAppend=false, successCallback = null, errorCallback = null) {
     $.ajax({
         type: "get",
         url: api + uri,
@@ -272,4 +272,32 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
+}
+
+function toggleNewJob() {
+    $('#btn-new-job').toggle(1000);
+    $('#new-job').toggle(1000);
+}
+
+function makeJobEditable(id,title,pph) {
+    let data = {
+        "id":id,
+        "title": title,
+        "pph":pph
+    };
+    let templateStructure = $('#template-edit-job').html();
+    let output = Mustache.render(templateStructure, data);
+    $('#job-'+id).html(output);
+
+}
+function makeJobNormal(id,title,pph) {
+    let data = {
+        "id":id,
+        "title": title,
+        "pph":pph
+    };
+    let templateStructure = $('#template-normal-job').html();
+    let output = Mustache.render(templateStructure, data);
+    $('#job-'+id).html(output);
+
 }

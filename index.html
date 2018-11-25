@@ -197,6 +197,78 @@
     </tr>
     {{/employees}}
 </script>
+<script id="template-jobs" type="text/html">
+    {{#jobs}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" id="job-{{id}}">
+                        <div class="col-md-9">
+                            <h5>{{title}}</h5>
+                            <p class="text-dark">Points per 100pcs : {{pph}}</p>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <button onclick="makeJobEditable('{{id}}','{{title}}','{{pph}}')"
+                                    class="btn btn-sm btn-warning btn-round btn-icon">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-round btn-icon">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- end content-->
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    {{/jobs}}
+</script>
+<script id="template-normal-job" type="text/html">
+
+    <div class="col-md-9">
+        <h5>{{title}}</h5>
+        <p class="text-dark">Points per 100pcs : {{pph}}</p>
+    </div>
+    <div class="col-md-3 text-right">
+        <button onclick="makeJobEditable('{{id}}','{{title}}','{{pph}}')"
+                class="btn btn-sm btn-warning btn-round btn-icon">
+            <i class="fa fa-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger btn-round btn-icon">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</script>
+<script id="template-edit-job" type="text/html">
+
+    <div class="col-md-9">
+        <div class="form-group">
+            <input name="title" value="{{title}}" type="text" class="form-control" placeholder="Job name">
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <label class="text-dark">Points per 100pcs :</label>
+            </div>
+            <div class="col-3">
+                <input name="pph" type="number" class="form-control" value="{{pph}}">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 text-right">
+        <button id="btn-submit-add-job" type="submit" class="btn btn-sm btn-success btn-round btn-icon">
+            <i class="fa fa-check"></i>
+        </button>
+        <button onclick="makeJobNormal('{{id}}','{{title}}','{{pph}}')" class="btn btn-sm btn-danger btn-round btn-icon">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+
+</script>
 <script id="template-tbl-tasks" type="text/html">
     {{#tasks}}
     <tr>
@@ -205,9 +277,12 @@
         <td><a href="#task-hh">{{title}}</a></td>
         <td>{{pcs_count}}</td>
         <td class="text-right">
-            <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')"  class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></button>
-            <a href="#edit-task-hhQQid={{id}}" class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></a>
-            <button onclick="deleteTask('{{id}}')"  class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
+            <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')"
+                    class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></button>
+            <a href="#edit-task-hhQQid={{id}}" class="btn btn-warning btn-round btn-icon btn-sm edit"><i
+                    class="fa fa-pencil"></i></a>
+            <button onclick="deleteTask('{{id}}')" class="btn btn-danger btn-link btn-icon btn-sm remove"><i
+                    class="fa fa-times"></i></button>
         </td>
     </tr>
     {{/tasks}}

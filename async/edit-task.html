@@ -15,7 +15,7 @@
                                 <input name="pcs_count" type="number" class="form-control" placeholder="0">
                             </div>
                             <div class="form-group col-md-2">
-                               Date
+                                Date
                                 <input name="date" type="text" class="form-control datepicker">
                             </div>
                             <div class="col text-right">
@@ -41,31 +41,8 @@
         <hr/>
     </div>
 </div>
+<div id="jobs">
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-9">
-                        <h5>Hi</h5>
-                        <p class="text-dark">Points per 100pcs : 100</p>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <button class="btn btn-sm btn-warning btn-round btn-icon">
-                            <i class="fa fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger btn-round btn-icon">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- end content-->
-        </div>
-        <!--  end card  -->
-    </div>
-    <!-- end col-md-12 -->
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -87,8 +64,8 @@
                         </div>
                     </div>
                     <div class="col-md-3 text-right">
-                        <button class="btn btn-sm btn-warning btn-round btn-icon">
-                            <i class="fa fa-pencil"></i>
+                        <button class="btn btn-sm btn-success btn-round btn-icon">
+                            <i class="fa fa-check"></i>
                         </button>
                         <button class="btn btn-sm btn-danger btn-round btn-icon">
                             <i class="fa fa-times"></i>
@@ -103,12 +80,51 @@
     <!-- end col-md-12 -->
 </div>
 
-<button class="btn btn-success btn-round btn-icon">
+<div class="row" id="new-job">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" id="frm-add-job">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input name="title" type="title" class="form-control" placeholder="Job name">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <label class="text-dark">Points per 100pcs :</label>
+                                </div>
+                                <div class="col-3">
+                                    <input name="pph" type="number" class="form-control" value="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <button id="btn-submit-add-job" type="submit" class="btn btn-sm btn-success btn-round btn-icon">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button onclick="toggleNewJob()" class="btn btn-sm btn-danger btn-round btn-icon">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end content-->
+        </div>
+        <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+</div>
+
+<button id="btn-new-job" onclick="toggleNewJob()" class="btn btn-success btn-round btn-icon">
     <i class="nc-icon nc-simple-add"></i>
 </button>
 
 <script>
     var id = getUrlParameter('id');
+    $('#new-job').hide();
     $.ajax({
         type: "GET",
         url: 'api/v1/tasks/' + id,
@@ -159,7 +175,7 @@
 
     frmEditTask.validate({
         rules: {
-            date:{
+            date: {
                 required: true
             },
             pcs_count: {
@@ -174,4 +190,40 @@
         }
     });
 
+    renderData('#template-jobs', '/tasks/' + id + '/jobs', '#jobs');
+    var frmAddJob = $('#frm-add-job');
+    frmAddJob.attr("action", 'api/v1/tasks/' + id+'/jobs');
+    var btnSubmitAddJob = $('#btn-submit-add-job');
+    frmAddJob.on('submit', function (e) {
+        e.preventDefault();
+        if (frmAddJob.valid()) {
+            btnSubmitAddJob.html('<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>');
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    showNotification('danger##notifications##Something went wrong');
+                    btnSubmitAddJob.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmAddJob.validate({
+        rules: {
+            date:{
+                required: true
+            },
+            pcs_count: {
+                required: true,
+                min: 1
+            },
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 60
+            }
+        }
+    });
 </script>
