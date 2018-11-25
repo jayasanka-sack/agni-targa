@@ -232,6 +232,29 @@ function deleteJob(id) {
 
 }
 
+
+function deleteCount(id) {
+    $("#btn-submit-delete").attr('onclick', "sendDeleteCount(" + id + ")");
+    $('#mdl-delete').modal();
+
+}
+
+function sendDeleteCount(id) {
+    $.ajax({
+        type: "DELETE",
+        url: api + '/counts/' + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mdl-delete').modal('hide');
+            refreshPage();
+            showNotification('success##notifications##Deleted Successfully!');
+        }, error: function () {
+            $('#mdl-delete').modal('hide');
+            showNotification('danger##notifications##Something went wrong');
+        }
+    });
+}
+
 function sendDeleteJob(id) {
     $.ajax({
         type: "DELETE",

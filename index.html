@@ -263,18 +263,62 @@
         <button onclick="editJob('{{id}}')" type="submit" class="btn btn-sm btn-success btn-round btn-icon">
             <i class="fa fa-check"></i>
         </button>
-        <button onclick="makeJobNormal('{{id}}','{{title}}','{{pph}}')" class="btn btn-sm btn-danger btn-round btn-icon">
+        <button onclick="makeJobNormal('{{id}}','{{title}}','{{pph}}')"
+                class="btn btn-sm btn-danger btn-round btn-icon">
             <i class="fa fa-times"></i>
         </button>
     </div>
 
+</script>
+<script id="template-jobs-by-emp" type="text/html">
+    {{#hour_counts}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h5>
+                                <small class="text-dark-gray">{{employee_id}} </small>
+                                {{first_name}} {{last_name}}
+                            </h5>
+                            <table class="table">
+                                {{#counts}}
+                                <tr>
+                                    <td>{{job_hour}}:00 h</td>
+                                    <td>{{title}}</td>
+                                    <td>{{pcs}} pcs</td>
+                                    <td><i class="fa fa-star text-warning"></i> {{points}}</td>
+                                    <td>
+                                        <button onclick="deleteCount('{{id}}')" class="btn btn-sm btn-simple btn-round btn-icon">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{/counts}}
+                            </table>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <h5 class="text-dark-gray"><i class="fa fa-star text-warning"></i> {{total_points}}
+                                <small>/ {{total_pcs}} pcs</small>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- end content-->
+            </div>
+            <!--  end card  -->
+        </div>
+        <!-- end col-md-12 -->
+    </div>
+    {{/hour_counts}}
 </script>
 <script id="template-tbl-tasks" type="text/html">
     {{#tasks}}
     <tr>
         <td>{{id}}</td>
         <td>{{date}}</td>
-        <td><a href="#task-hh">{{title}}</a></td>
+        <td><a href="#task-hhQQid={{id}}">{{title}}</a></td>
         <td>{{pcs_count}}</td>
         <td class="text-right">
             <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')"
@@ -286,6 +330,12 @@
         </td>
     </tr>
     {{/tasks}}
+</script>
+
+<script id="template-select-job-list" type="text/html">
+    {{#jobs}}
+    <option value="{{id}}">{{title}}</option>
+    {{/jobs}}
 </script>
 <script type="text/javascript">
 
