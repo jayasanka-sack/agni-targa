@@ -204,7 +204,7 @@ function editEmployee(id, fname, lname) {
 }
 
 function deleteEmployee(id) {
-    $("#btn-submit-delete").attr('onclick', "sendDeleteEmployee("+id+")");
+    $("#btn-submit-delete").attr('onclick', "sendDeleteEmployee(" + id + ")");
     $('#mdl-delete').modal();
 
 }
@@ -236,7 +236,7 @@ function editTask(id, date, title, pcs_count) {
 }
 
 function deleteTask(id) {
-    $("#btn-submit-delete").attr('onclick', "sendDeleteTask("+id+")");
+    $("#btn-submit-delete").attr('onclick', "sendDeleteTask(" + id + ")");
     $('#mdl-delete').modal();
 
 }
@@ -255,4 +255,21 @@ function sendDeleteTask(id) {
             showNotification('danger##notifications##Something went wrong');
         }
     });
+}
+
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(pageRosolve(window.location.hash));
+    sPageURL = sPageURL.split('?');
+    sPageURL = sPageURL[1];
+    var sURLVariables = sPageURL.split('&');
+    var sParameterName;
+    var i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
 }

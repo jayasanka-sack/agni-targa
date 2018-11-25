@@ -3,23 +3,29 @@
         <div class="card">
             <div class="card-body">
                 <div class="toolbar">
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <input type="email" class="form-control" placeholder="Task name">
+                    <form id="frm-edit-task" method="post" action="#">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <input type="text" name="title" class="form-control" placeholder="Task name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-2">
-                            Total pcs
-                            <input type="number" class="form-control" placeholder="0">
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                Total pcs
+                                <input name="pcs_count" type="number" class="form-control" placeholder="0">
+                            </div>
+                            <div class="form-group col-md-2">
+                               Date
+                                <input name="date" type="text" class="form-control datepicker">
+                            </div>
+                            <div class="col text-right">
+                                <button class="btn btn-simple btn-round">Cancel</button>
+                                <button id="btn-submit-edit-task" class="btn btn-success btn-round btn-round">
+                                    save
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-md-10 text-right">
-                            <button class="btn btn-simple btn-round">Cancel</button>
-                            <button class="btn btn-success btn-round btn-round">
-                                save
-                            </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <!-- end content-->
@@ -102,20 +108,70 @@
 </button>
 
 <script>
-
-    $('#datatable').DataTable({
-        "pagingType": "full_numbers",
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        responsive: true,
-        language: {
-            search: "_INPUT_",
-            searchPlaceholder: "Search records",
+    var id = getUrlParameter('id');
+    $.ajax({
+        type: "GET",
+        url: 'api/v1/tasks/' + id,
+        dataType: "json", success: function (data) {
+            let form = $('#frm-edit-task');
+            form.attr("action", 'api/v1/tasks/' + data.id);
+            form.find('[name="date"]').val(data.date);
+            form.find('[name="title"]').val(data.title);
+            form.find('[name="pcs_count"]').val(data.pcs_count);
+        },
+        error: function () {
+            loadPage('dashboard.html')
         }
-
+    })
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
     });
 
-    var table = $('#datatable').DataTable();
+    var frmEditTask = $('#frm-edit-task');
+    var btnSubmitEditTask = $('#btn-submit-edit-task');
+    frmEditTask.on('submit', function (e) {
+        e.preventDefault();
+        if (frmEditTask.valid()) {
+            btnSubmitEditTask.html("SAVING...");
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    $('#mdl-edit-task').modal('hide');
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    showNotification('danger##notifications##Something went wrong');
+                    btnSubmitEditTask.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmEditTask.validate({
+        rules: {
+            date:{
+                required: true
+            },
+            pcs_count: {
+                required: true,
+                min: 1
+            },
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 60
+            }
+        }
+    });
+
 </script>

@@ -205,8 +205,9 @@
         <td><a href="#task-hh">{{title}}</a></td>
         <td>{{pcs_count}}</td>
         <td class="text-right">
-            <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')" href="#edit-task-hh" class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></button>
-            <button onclick="deleteTask('{{id}}')" href="#" class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
+            <button onclick="editTask('{{id}}','{{date}}','{{title}}','{{pcs_count}}')"  class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></button>
+            <a href="#edit-task-hhQQid={{id}}" class="btn btn-warning btn-round btn-icon btn-sm edit"><i class="fa fa-pencil"></i></a>
+            <button onclick="deleteTask('{{id}}')"  class="btn btn-danger btn-link btn-icon btn-sm remove"><i class="fa fa-times"></i></button>
         </td>
     </tr>
     {{/tasks}}
