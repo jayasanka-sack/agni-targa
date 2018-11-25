@@ -15,7 +15,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Date</th>
+                        <th id="th-date">Date</th>
                         <th>Task</th>
                         <th>Pcs</th>
                         <th class="disabled-sorting text-right">Actions</th>
@@ -126,7 +126,7 @@
 </div>
 
 <script>
-    renderTableData('#template-tbl-tasks', '/tasks', '#tbl-tasks');
+    renderTableData('#template-tbl-tasks', '/tasks', '#tbl-tasks',clickOnDate);
 
     $('.datepicker').datetimepicker({
         format: 'YYYY-MM-DD',
@@ -216,4 +216,6 @@
             }
         }
     });
+
+
 </script>

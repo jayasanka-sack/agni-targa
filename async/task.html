@@ -1,17 +1,13 @@
 <div class="row">
     <div class="col-9">
-        <h2>My Task</h2>
+        <h2 id="task-title"><small>Loading...</small></h2>
     </div>
-    <div class="col-3">
+    <div class="col-3 text-right">
         <button class="btn btn-success btn-round btn-icon" data-toggle="modal" data-target="#mdl-add-pcs">
             <i class="fa fa-plus"></i>
         </button>
-        <a href="#edit-task-hh" class="btn btn-warning btn-round btn-icon">
-            <i class="fa fa-pencil"></i>
-        </a>
-        <button class="btn btn-danger btn-round btn-icon">
-            <i class="fa fa-times"></i>
-        </button>
+        <a id="btn-open-edit-task" href="#" class="btn btn-info btn-round btn-icon edit"><i
+                class="fa fa-edit"></i></a>
     </div>
 </div>
 
@@ -20,7 +16,7 @@
         <div class="card ">
             <div class="card-header ">
                 <h5 class="card-title">Progress</h5>
-                <!--<p class="card-category">Last Campaign Performance</p>-->
+                <p class="card-category" id="percentage-stats"></p>
             </div>
             <div class="card-body ">
                 <canvas id="chartDonut1" class="ct-chart ct-perfect-fourth" width="456"
@@ -35,49 +31,8 @@
     </div>
 
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-9">
-                        <h5>#1
-                            <small class="text-dark-gray">001</small>
-                            Anjula Samarasinghe
-                        </h5>
-                        <table class="table">
-                            <tr>
-                                <td>8:00 AM</td>
-                                <td>Lorem ipsum</td>
-                                <td>100 pcs</td>
-                                <td>
-                                    <button class="btn btn-sm btn-simple btn-round btn-icon">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8:00 AM</td>
-                                <td>Lorem ipsum</td>
-                                <td>100 pcs</td>
-                                <td>
-                                    <button class="btn btn-sm btn-simple btn-round btn-icon">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-3 text-right">
-                        <h5 class="text-dark-gray"><i class="fa fa-star text-warning"></i> 500</h5>
-                    </div>
-                </div>
-            </div>
-            <!-- end content-->
-        </div>
-        <!--  end card  -->
-    </div>
-    <!-- end col-md-12 -->
+<div id="jobs-by-emp">
+
 </div>
 <div class="modal fade" id="mdl-add-pcs" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -88,151 +43,231 @@
                 </button>
                 <h4 class="title title-up">Add hourly count</h4>
             </div>
-            <div class="modal-body">
-                <form method="#" action="#">
+            <form id="frm-add-count" method="post" action="api/v1/counts">
+                <div class="modal-body">
                     <label>Hour</label>
                     <div class="form-group">
-                        <input type="number" class="form-control">
+                        <select name="job_hour" class="form-control">
+                            <option value="1">1:00 h</option>
+                            <option value="2">2:00 h</option>
+                            <option value="3">3:00 h</option>
+                            <option value="4">4:00 h</option>
+                            <option value="5">5:00 h</option>
+                            <option value="6">6:00 h</option>
+                            <option value="7">7:00 h</option>
+                            <option value="8">8:00 h</option>
+                            <option value="9">9:00 h</option>
+                            <option value="10">10:00 h</option>
+                            <option value="11">11:00 h</option>
+                            <option value="12">12:00 h</option>
+                            <option value="13">13:00 h</option>
+                            <option value="14">14:00 h</option>
+                            <option value="15">15:00 h</option>
+                            <option value="16">16:00 h</option>
+                            <option value="17">17:00 h</option>
+                            <option value="18">18:00 h</option>
+                            <option value="19">19:00 h</option>
+                            <option value="20">20:00 h</option>
+                            <option value="21">21:00 h</option>
+                            <option value="22">22:00 h</option>
+                            <option value="23">23:00 h</option>
+                            <option value="24">24:00 h</option>
+                        </select>
                     </div>
                     <label>Employee ID</label>
                     <div class="form-group">
-                        <input type="text" class="form-control">
+                        <input name="employee_id" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Job</label>
-                        <select class="form-control" id="sel1">
-                            <option>Lorem ipsum</option>
-                            <option>Sit amet</option>
-                            <option>Despacito</option>
+                        <select name="job_id" id="select-job-list" class="form-control">
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Count</label>
-                        <input type="number" class="form-control">
+                        <input name="pcs" type="number" class="form-control">
                     </div>
                     <p class="text-danger text-center"></p>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="left-side">
-                    <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
                 </div>
-                <div class="divider"></div>
-                <div class="right-side">
-                    <button type="button" class="btn btn-success btn-link">Save</button>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-link" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        <button id="btn-submit-add-count" type="submit" class="btn btn-success btn-link">Save</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        Chart.pluginService.register({
-            beforeDraw: function (chart) {
-                if (chart.config.options.elements.center) {
-                    //Get ctx from string
-                    var ctx = chart.chart.ctx;
+    var id = getUrlParameter('id');
+    $('#btn-open-edit-task').attr('href', '#edit-task-hhQQid=' + id);
+    $.ajax({
+        type: "GET",
+        url: 'api/v1/tasks/'+id,
+        dataType: "json",
+        success: function (data) {
+            $('#task-title').text(data.title);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: 'api/v1/tasks/'+id+'/percentage',
+        dataType: "json",
+        success: function (data) {
+            $('#percentage-stats').text(data['numeric']['completed']+' / '+data['numeric']['total']);
+            Chart.pluginService.register({
+                beforeDraw: function (chart) {
+                    if (chart.config.options.elements.center) {
+                        //Get ctx from string
+                        var ctx = chart.chart.ctx;
 
-                    //Get options from the center object in options
-                    var centerConfig = chart.config.options.elements.center;
-                    var fontStyle = centerConfig.fontStyle || 'Arial';
-                    var txt = centerConfig.text;
-                    var color = centerConfig.color || '#000';
-                    var sidePadding = centerConfig.sidePadding || 20;
-                    var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
-                    //Start with a base font of 30px
-                    ctx.font = "30px " + fontStyle;
+                        //Get options from the center object in options
+                        var centerConfig = chart.config.options.elements.center;
+                        var fontStyle = centerConfig.fontStyle || 'Arial';
+                        var txt = centerConfig.text;
+                        var color = centerConfig.color || '#000';
+                        var sidePadding = centerConfig.sidePadding || 20;
+                        var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
+                        //Start with a base font of 30px
+                        ctx.font = "30px " + fontStyle;
 
-                    //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
-                    var stringWidth = ctx.measureText(txt).width;
-                    var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+                        //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+                        var stringWidth = ctx.measureText(txt).width;
+                        var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
 
-                    // Find out how much the font can grow in width.
-                    var widthRatio = elementWidth / stringWidth;
-                    var newFontSize = Math.floor(30 * widthRatio);
-                    var elementHeight = (chart.innerRadius * 2);
+                        // Find out how much the font can grow in width.
+                        var widthRatio = elementWidth / stringWidth;
+                        var newFontSize = Math.floor(30 * widthRatio);
+                        var elementHeight = (chart.innerRadius * 2);
 
-                    // Pick a new font size so it will not be larger than the height of label.
-                    var fontSizeToUse = Math.min(newFontSize, elementHeight);
+                        // Pick a new font size so it will not be larger than the height of label.
+                        var fontSizeToUse = Math.min(newFontSize, elementHeight);
 
-                    //Set font settings to draw it correctly.
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
-                    var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
-                    ctx.font = fontSizeToUse + "px " + fontStyle;
-                    ctx.fillStyle = color;
+                        //Set font settings to draw it correctly.
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                        var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                        ctx.font = fontSizeToUse + "px " + fontStyle;
+                        ctx.fillStyle = color;
 
-                    //Draw text in center
-                    ctx.fillText(txt, centerX, centerY);
-                }
-            }
-        });
-        ctx = document.getElementById('chartDonut1').getContext("2d");
-
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: [1, 2],
-                datasets: [{
-                    label: "Emails",
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    backgroundColor: ['#6bd098', '#f4f3ef'],
-                    borderWidth: 0,
-                    data: [60, 40]
-                }]
-            },
-            options: {
-                elements: {
-                    center: {
-                        text: '60%',
-                        color: '#66615c', // Default is #000000
-                        fontStyle: 'Arial', // Default is Arial
-                        sidePadding: 60 // Defualt is 20 (as a percentage)
+                        //Draw text in center
+                        ctx.fillText(txt, centerX, centerY);
                     }
-                },
-                cutoutPercentage: 90,
-                legend: {
+                }
+            });
+            ctx = document.getElementById('chartDonut1').getContext("2d");
 
-                    display: false
-                },
-
-                tooltips: {
-                    enabled: false
-                },
-
-                scales: {
-                    yAxes: [{
-
-                        ticks: {
-                            display: false
-                        },
-                        gridLines: {
-                            drawBorder: false,
-                            zeroLineColor: "transparent",
-                            color: 'rgba(255,255,255,0.05)'
-                        }
-
-                    }],
-
-                    xAxes: [{
-                        barPercentage: 1.6,
-                        gridLines: {
-                            drawBorder: false,
-                            color: 'rgba(255,255,255,0.1)',
-                            zeroLineColor: "transparent"
-                        },
-                        ticks: {
-                            display: false,
-                        }
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [1, 2],
+                    datasets: [{
+                        label: "Emails",
+                        pointRadius: 0,
+                        pointHoverRadius: 0,
+                        backgroundColor: ['#6bd098', '#f4f3ef'],
+                        borderWidth: 0,
+                        data: [data['percentage']['completed'], data['percentage']['remaining']]
                     }]
                 },
-            }
-        });
+                options: {
+                    elements: {
+                        center: {
+                            text: parseInt(data['percentage']['completed'])+'%',
+                            color: '#66615c', // Default is #000000
+                            fontStyle: 'Arial', // Default is Arial
+                            sidePadding: 60 // Defualt is 20 (as a percentage)
+                        }
+                    },
+                    cutoutPercentage: 90,
+                    legend: {
 
+                        display: false
+                    },
 
+                    tooltips: {
+                        enabled: false
+                    },
+
+                    scales: {
+                        yAxes: [{
+
+                            ticks: {
+                                display: false
+                            },
+                            gridLines: {
+                                drawBorder: false,
+                                zeroLineColor: "transparent",
+                                color: 'rgba(255,255,255,0.05)'
+                            }
+
+                        }],
+
+                        xAxes: [{
+                            barPercentage: 1.6,
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(255,255,255,0.1)',
+                                zeroLineColor: "transparent"
+                            },
+                            ticks: {
+                                display: false,
+                            }
+                        }]
+                    },
+                }
+            });
+        }
     });
+
+
+    renderData('#template-select-job-list', '/tasks/' + id + '/jobs', '#select-job-list');
+    renderData('#template-jobs-by-emp', '/tasks/' + id + '/hour-count-by-employee', '#jobs-by-emp');
+
+
+    var frmAddCount = $('#frm-add-count');
+    var btnSubmitAddCount = $('#btn-submit-add-count');
+    frmAddCount.on('submit', function (e) {
+        e.preventDefault();
+        if (frmAddCount.valid()) {
+            btnSubmitAddCount.html("SAVING...");
+            $(this).ajaxSubmit({
+                success: function (data) {
+                    $('#mdl-add-pcs').modal('hide');
+                    refreshPage();
+                    showNotification('success##notifications##Saved Successfully!');
+                }, error: function () {
+                    $('#mdl-add-pcs').modal('hide');
+                    showNotification('danger##notifications##Something went wrong');
+                    btnSubmitAddCount.prop("disabled", false);
+                }
+            });
+        }
+    });
+
+    frmAddCount.validate({
+        rules: {
+            employee_id: {
+                required: true
+            },
+            pcs: {
+                required: true,
+                min: 0
+            },
+            job_id: {
+                required: true
+            },
+            job_hour: {
+                required: true
+            }
+        }
+    });
+
 </script>

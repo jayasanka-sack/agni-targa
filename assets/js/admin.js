@@ -13,7 +13,7 @@ function loadPage(url) {
             $('#page').html(data);
         },
         error: function () {
-            loadPage('dashboard.html')
+            loadPage('tasks.html')
         }
     });
 
@@ -363,4 +363,9 @@ function editJob(id) {
             showNotification('danger##notifications##Something went wrong');
         }
     });
+}
+
+function clickOnDate() {
+    $('#th-date').click();
+    $('#th-date').click();
 }
